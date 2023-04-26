@@ -59,3 +59,4 @@ build
 !app/frontend/.env
 !local-infrastructure/.env
 .history
+bfg-1.14.0.jar
