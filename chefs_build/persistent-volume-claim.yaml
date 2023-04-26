@@ -12,3 +12,19 @@ spec:
     requests:
       storage: 100Mi
 status: {}
+
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: keycloak-logs
+  creationTimestamp: null
+  labels:
+    io.kompose.service: keycloak-logs
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 40Mi

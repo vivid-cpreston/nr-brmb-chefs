@@ -1,0 +1,3 @@
+FROM node:3.17-alpine
+WORKDIR /app/frontend
+RUN npm install

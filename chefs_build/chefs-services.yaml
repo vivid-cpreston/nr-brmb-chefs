@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: chefs-api
+  name: chefs-api
+spec:
+  ports:
+    - name: "8080"
+      port: 8080
+      targetPort: 8080
+  selector:
+    io.kompose.service: chefs-api
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: chefs-keycloak
+  creationTimestamp: null
+  labels:
+    io.kompose.service: chefs-keycloak
+spec:
+  ports:
+    - name: '8082'
+      protocol: TCP
+      port: 8082
+      targetPort: 8082
+  internalTrafficPolicy: Cluster
+  selector:
+    io.kompose.service: chefs-keycloak
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: postgres
+  creationTimestamp: null
+  labels:
+    io.kompose.service: postgres
+spec:
+  ports:
+    - name: '5432'
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
+  internalTrafficPolicy: Cluster
+  type: ClusterIP
+  selector:
+    io.kompose.service: postgres
+

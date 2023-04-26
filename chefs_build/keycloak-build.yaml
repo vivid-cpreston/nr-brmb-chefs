@@ -1,0 +1,28 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: keycloak
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'oc-keycloak:v0.0.1'
+  resources: {}
+  successfulBuildsHistoryLimit: 5
+  failedBuildsHistoryLimit: 5
+  strategy:
+    type: Docker
+    dockerStrategy: {}
+  postCommit: {}
+  source:
+    type: Git
+    dockerfile: |
+      FROM quay.io/keycloak/keycloak:17.0.1
+      RUN chgrp -R 0 /opt/keycloak && chmod -R g=u /opt/keycloak
+    git:
+      uri: 'https://github.com/bcgov/nr-brmb-chefs.git'
+      ref: main
+  triggers:
+    - type: ConfigChange
+  runPolicy: Serial

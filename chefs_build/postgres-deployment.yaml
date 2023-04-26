@@ -1,49 +1,57 @@
-apiVersion: apps/v1
 kind: Deployment
+apiVersion: apps/v1
 metadata:
-  annotations:
-    kompose.cmd: C:\Users\CPreston\CLI Tools\kompose.exe convert -f docker-compose.yml
-    kompose.version: 1.28.0 (c4137012e)
+  name: postgres
   creationTimestamp: null
   labels:
     io.kompose.service: postgres
-  name: postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
       io.kompose.service: postgres
-  strategy:
-    type: Recreate
   template:
     metadata:
-      annotations:
-        kompose.cmd: C:\Users\CPreston\CLI Tools\kompose.exe convert -f docker-compose.yml
-        kompose.version: 1.28.0 (c4137012e)
       creationTimestamp: null
       labels:
-        io.kompose.network/chefs-build-common-network: "true"
+        io.kompose.network/chefs-build-common-network: 'true'
         io.kompose.service: postgres
     spec:
-      containers:
-        - env:
-            - name: POSTGRES_DB
-              value: chefs
-            - name: POSTGRES_PASSWORD
-              value: admin
-            - name: POSTGRES_USER
-              value: app
-          image: postgres:14.2
-          name: postgres
-          ports:
-            - containerPort: 5432
-          resources: {}
-          volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: postgres-kc-data
-      restartPolicy: Always
       volumes:
         - name: postgres-kc-data
           persistentVolumeClaim:
             claimName: postgres-kc-data
-status: {}
+      containers:
+        - resources: {}
+          terminationMessagePath: /dev/termination-log
+          name: postgres
+          env:
+            - name: POSTGRES_DB
+              value: chefs
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-password
+                  key: password
+            - name: POSTGRES_USER
+              value: app
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: postgres-kc-data
+              mountPath: /var/lib/postgresql/data
+          terminationMessagePolicy: File
+          image: 'postgres:14.2'
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: Recreate
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
