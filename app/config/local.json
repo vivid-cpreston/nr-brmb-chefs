@@ -1,0 +1,72 @@
+{
+    "db": {
+      "database": "chefs",
+      "host": "postgres",
+      "port": "5432",
+      "username": "$CHEFS_DB_USER",
+      "password": "$CHEFS_DB_SECRET"
+    },
+    "files": {
+      "uploads": {
+        "enabled": "true",
+        "fileCount": "1",
+        "fileKey": "files",
+        "fileMaxSize": "25MB",
+        "fileMinSize": "0KB",
+        "path": "files"
+      },
+      "permanent": "localStorage",
+      "localStorage" : {
+        "path": "myfiles"
+      },
+      "objectStorage": {
+        "accessKeyId": "$CHEFS_ACCESS_KEY_ID",
+        "bucket": "$CHEFS_BUCKET_ID",
+        "endpoint": "https://nrs.objectstore.gov.bc.ca",
+        "key": "chefs/$CHEFS_BUCKET_ENVIRONMENT/",
+        "secretAccessKey": "$CHEFS_SECRET_ACCESS_KEY"
+      }
+    },
+    "frontend": {
+      "apiPath": "api/v1",
+      "basePath" : "/app",
+      "keycloak": {
+        "clientId": "chefs",
+        "realm": "$CHEFS_REALM",
+        "serverUrl": "http://chefs:8082"
+      }
+    },
+    "server": {
+      "apiPath": "/api/v1",
+      "basePath" : "/app",
+      "bodyLimit": "30mb",
+      "keycloak": {
+        "clientId": "chefs-backend",
+        "realm": "$CHEFS_REALM",
+        "serverUrl": "http://chefs-api:8082",
+        "clientSecret": "$CHEFS_CLIENT_SECRET"
+      },
+      "logLevel": "http",
+      "port": "8080",
+      "rateLimit" : {
+        "public": {
+          "windowMs": "900000",
+          "max": "100"
+        }
+      }
+    },
+    "serviceClient": {
+      "commonServices": {
+        "ches": {
+          "endpoint": "https://ches-dev.apps.silver.devops.gov.bc.ca/api"
+        },
+        "cdogs": {
+          "endpoint": "https://cdogs-dev.apps.silver.devops.gov.bc.ca/api"
+        },
+        "tokenEndpoint": "https://dev.oidc.gov.bc.ca/auth/realms/jbd6rnxw/protocol/openid-connect/token",
+        "username": "$CHEFS_SERVICE_CLIENT_USERNAME",
+        "password": "$CHEFS_SERVICE_CLIENT_PASSWORD"
+      }
+    }
+  }
+  
