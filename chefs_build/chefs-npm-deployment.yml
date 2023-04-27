@@ -3,44 +3,78 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: chefs-npm
-  name: chefs-npm
+    io.kompose.service: chefs-frontend
+  name: chefs-frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: chefs-npm
+      io.kompose.service: chefs-frontend
   template:
     metadata:
       creationTimestamp: null
       labels:
         io.kompose.network/chefs-build-common-network: 'true'
-        io.kompose.service: chefs-npm
+        io.kompose.service: chefs-frontend
     spec:
       containers:
         - resources: {}
-          name: chefs-npm
+          name: chefs-frontend
           env:
-            - name: BUCKET_ACCESS_KEY_ID
-              value: 
-            - name: BUCKET_ID
-              value: 
-            - name: ENVIRONMENT
-              value: 
-            - name: REALM
-              value:
-            - name: CLIENT_SECRET
-              value:
+            - name: CHEFS_BUCKET_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-bucket-creds
+                  key: access-key-id
+            - name: CHEFS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-bucket-creds
+                  key: secret-access-key
+            - name: CHEFS_BUCKET_ID
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-bucket-creds
+                  key: bucket-id
+            - name: CHEFS_BUCKET_ENVIRONMENT
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-bucket-creds
+                  key: environment
+            - name: CHEFS_REALM
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-realm
+                  key: realm
+            - name: CHEFS_LOCAL_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-local-client-creds
+                  key: secret-key
             - name: CHEFS_SERVICE_CLIENT
-              value:
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-service-client-creds
+                  key: username
             - name: CHEFS_SERVICE_PASSWORD
-              value:
-            - name: DB_USER
-              value:
-            - name: DB_SECRET
-              value:  
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-service-client-creds
+                  key: password
+            - name: CHEFS_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-db-creds
+                  key: username
+            - name: CHEFS_DB_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-db-creds
+                  key: password
           ports:
             - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8081
               protocol: TCP
           imagePullPolicy: IfNotPresent
           terminationMessagePolicy: File
@@ -48,8 +82,92 @@ spec:
             image-registry.openshift-image-registry.svc:5000/TOOLS_NAMESPACE/chefs-api@v0.0.1
           args:
             - 
-      volumes:
-        - name: secret-volume
-          secret:
-            secretName: realm-export
+status: {}
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: chefs-api
+  name: chefs-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: chefs-api
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.network/chefs-build-common-network: 'true'
+        io.kompose.service: chefs-api
+    spec:
+      containers:
+        - resources: {}
+          name: chefs-api
+          env:
+            - name: CHEFS_BUCKET_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-bucket-creds
+                  key: access-key-id
+            - name: CHEFS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-bucket-creds
+                  key: secret-access-key
+            - name: CHEFS_BUCKET_ID
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-bucket-creds
+                  key: bucket-id
+            - name: CHEFS_BUCKET_ENVIRONMENT
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-bucket-creds
+                  key: environment
+            - name: CHEFS_REALM
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-realm
+                  key: realm
+            - name: CHEFS_LOCAL_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-local-client-creds
+                  key: secret-key
+            - name: CHEFS_SERVICE_CLIENT
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-service-client-creds
+                  key: username
+            - name: CHEFS_SERVICE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-service-client-creds
+                  key: password
+            - name: CHEFS_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-db-creds
+                  key: username
+            - name: CHEFS_DB_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: chefs-db-creds
+                  key: password
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8081
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+          terminationMessagePolicy: File
+          image: >-
+            image-registry.openshift-image-registry.svc:5000/TOOLS_NAMESPACE/chefs@v0.0.1
+          args:
+            - 
 status: {}
