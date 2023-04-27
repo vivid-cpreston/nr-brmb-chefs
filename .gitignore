@@ -56,6 +56,7 @@ build
 .idea
 .project
 
+!app/config/local.json
 !app/frontend/.env
 !local-infrastructure/.env
 .history
