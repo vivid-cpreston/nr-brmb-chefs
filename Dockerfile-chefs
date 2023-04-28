@@ -1,5 +1,6 @@
 FROM node:16-alpine
+RUN apk add --no-cache bash
 COPY app/ /app/
-COPY ./*.sh /app/
+COPY *.sh /app/
 WORKDIR /app/
 RUN chmod 755 /app/fillEnvValues.sh && chmod 755 /app/startBackend.sh && chmod 755 /app/startFrontend.sh && chmod 766 /app/config/local.json
