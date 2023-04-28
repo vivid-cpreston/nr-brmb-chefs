@@ -1,5 +1,4 @@
-FROM node:16-alpine
-RUN apk add --no-cache bash
+FROM node:16
 COPY app/ /app/
 COPY *.sh /app/
 WORKDIR /app/
