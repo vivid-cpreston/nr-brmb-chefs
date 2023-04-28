@@ -1,6 +1,6 @@
 #!/bin/bash
 cd /app
-./fillEnvValues.sh ./config/local.json
+./fillEnvValues.sh /app/config/local.json
 npm install
 npm run migrate
 npm run seed:run
