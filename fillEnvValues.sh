@@ -10,6 +10,6 @@ do
     #split each line into a key (array[0]) and a value (array[1])
     IFS='=' read -r -a array <<< $env_var
     #replace key name in file with value
-    sed -i "s/\$${array[0]}/${array[1]}/g" $1
+    sed -i "s@\$${array[0]}@${array[1]}@g" $1
   fi
 done

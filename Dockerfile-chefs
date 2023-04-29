@@ -2,4 +2,4 @@ FROM node:16
 COPY app/ /app/
 COPY *.sh /app/
 WORKDIR /app/
-RUN chmod 755 /app/fillEnvValues.sh && chmod 755 /app/startBackend.sh && chmod 755 /app/startFrontend.sh && chmod 766 /app/config/local.json
+RUN chmod -R 777 /app
