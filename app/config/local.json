@@ -20,7 +20,7 @@
         "path": "myfiles"
       },
       "objectStorage": {
-        "accessKeyId": "$CHEFS_ACCESS_KEY_ID",
+        "accessKeyId": "$CHEFS_BUCKET_ACCESS_KEY_ID",
         "bucket": "$CHEFS_BUCKET_ID",
         "endpoint": "https://nrs.objectstore.gov.bc.ca",
         "key": "chefs/$CHEFS_BUCKET_ENVIRONMENT/",
