@@ -29,11 +29,11 @@ objects:
       postCommit: {}
       resources:
         requests:
-          cpu: 2000m
+          cpu: 500m
           memory: 1Gi
         limits:
-          cpu: 4000m
-          memory: 6Gi
+          cpu: 1500m
+          memory: 2Gi
       runPolicy: SerialLatestOnly
       source:
         # contextDir: app

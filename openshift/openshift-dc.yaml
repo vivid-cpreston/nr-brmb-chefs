@@ -1,7 +1,0 @@
-
-
-export NAMESPACE=ec2c6e-$TARGET_ENV
-export APP_NAME=nr-brmb-chefs
-
-oc process -n $NAMESPACE -f openshift/app.dc.yaml -p REPO_NAME=common-hosted-form-service -p JOB_NAME=master -p NAMESPACE=$NAMESPACE -p APP_NAME=$APP_NAME -p ROUTE_HOST=$APP_NAME-dev.apps.silver.devops.gov.bc.ca -p R
-oc rollout -n $NAMESPACE latest dc/<buildname>-master
