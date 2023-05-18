@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /app
+cd /chefs/app
 ./fillEnvValues.sh /app/config/local.json
 npm install
 npm run migrate
