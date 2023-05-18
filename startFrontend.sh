@@ -1,6 +1,6 @@
 #!/bin/bash
-cd /app/frontend
-cp ../config/local.json ./local.json
+cd /app
 ./fillEnvValues.sh ./config/local.json
+cd /frontend
 npm install
 npm run serve
