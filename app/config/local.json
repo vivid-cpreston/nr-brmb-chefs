@@ -43,7 +43,7 @@
       "keycloak": {
         "clientId": "chefs-backend",
         "realm": "$CHEFS_REALM",
-        "serverUrl": "http://chefs-api:8082",
+        "serverUrl": "http://chefs-api:8081",
         "clientSecret": "$CHEFS_CLIENT_SECRET"
       },
       "logLevel": "http",
