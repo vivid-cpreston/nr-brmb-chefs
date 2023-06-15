@@ -33,7 +33,7 @@
       "keycloak": {
         "clientId": "chefs",
         "realm": "$CHEFS_REALM",
-        "serverUrl": "http://chefs:8082"
+        "serverUrl": "http://chefs-keycloak:8082"
       }
     },
     "server": {
