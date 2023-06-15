@@ -47,7 +47,7 @@
         "clientSecret": "$CHEFS_CLIENT_SECRET"
       },
       "logLevel": "http",
-      "port": "8080",
+      "port": "8081",
       "rateLimit" : {
         "public": {
           "windowMs": "900000",
